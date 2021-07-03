@@ -1,82 +1,69 @@
-const express = require("express");
 const path = require("path");
+const express = require("express");
+
+const { v4: uuidv4 } = require("uuid");
 const fs = require("fs");
-const notes = require("./db/db.json")
+
+const readNotes = () => {
+  const noteLists = fs.readFileSync("./db/db.json");
+  let noteList = JSON.parse(noteLists);
+  return noteList;
+};
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+
+const PORT = process.env.PORT || 3000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static("public"));
 
-currentID = notes.length;
-
-// API Routes
-
-app.get("/api/notes", function (req, res) {
-
-    return res.json(notes);
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/index.html"));
+});
+app.get("/notes", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/notes.html"));
 });
 
-app.post("/api/notes", function (req, res) {
-    var newNote = req.body;
-
-    newNote["id"] = currentID +1;
-    currentID++;
-    console.log(newNote);
-
-    notes.push(newNote);
-
-    rewriteNotes();
-
-    return res.status(200).end();
+app.get("/api/notes", (req, res) => {
+  const data = readNotes();
+  res.json(data);
 });
 
-app.delete("/api/notes/:id", function (req, res) {
-    res.send('Got a DELETE request at /api/notes/:id')
-
-    const id = req.params.id;
-
-    const idLess = notes.filter(function (less) {
-        return less.id < id;
-    });
-
-    const idGreater = notes.filter(function (greater) {
-        return greater.id > id;
-    });
-
-    notes = idLess.concat(idGreater);
-
-    rewriteNotes();
-})
-
-
-
-app.use(express.static("/Develop/public"));
-
-// HTML Routes
-
-app.get("/notes", function (req, res) {
-    res.sendFile(path.join(__dirname, "/Develop/public/index.html"));
+app.post("/api/notes", (req, res) => {
+  const newNote = req.body;
+  newNote.id = uuidv4();
+  const noteList = readNotes();
+  if (newNote) {
+    noteList.push(newNote);
+    let note = JSON.stringify(noteList, null, 2);
+    fs.writeFile("./db/db.json", note, (err) =>
+      err ? console.error(err) : console.log("Commit logged!")
+    );
+    res.json(note);
+  }
 });
 
-app.get("*", function (req, res) {
-    res.sendFile(path.join(__dirname, "/Develop/public/notes.html"));
+app.delete("/api/notes/:id", (req, res) => {
+  const noteList = readNotes();
+  const noteId = req.params.id;
+  const updatedNotes = noteList.filter((note) => noteId !== note.id);
+  let note = JSON.stringify(updatedNotes, null, 2);
+  fs.writeFile("./db/db.json", note, (err) =>
+    err ? console.error(err) : console.log("Commit logged!")
+  );
+  res.send(updatedNotes);
+});
+app.post("/api/clear", (req, res) => {
+  noteList.length = 0;
+
+  res.json({ ok: true });
 });
 
-
-app.listen(PORT, function () {
-    console.log("App listening on PORT " + PORT);
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/index.html"));
 });
 
-
-function rewriteNotes() {
-    fs.writeFile("/Develop/db/db.json", JSON.stringify(notes), function (err) {
-        if (err) {
-            console.log("error")
-            return console.log(err);
-        }
-
-        console.log("Success!");
-    });
-}
+app.listen(PORT, () => {
+  console.log(`App listening on PORT: http://localhost:${PORT}`);
+});
