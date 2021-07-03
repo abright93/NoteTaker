@@ -50,27 +50,25 @@ app.delete("/api/notes/:id", function (req, res) {
     rewriteNotes();
 })
 
-// Access files in "public" folder
 
-app.use(express.static("public"));
+
+app.use(express.static("/Develop/public"));
 
 // HTML Routes
 
 app.get("/notes", function (req, res) {
-    res.sendFile(path.join(__dirname, "public/notes.html"));
+    res.sendFile(path.join(__dirname, "/Develop/public/index.html"));
 });
 
 app.get("*", function (req, res) {
-    res.sendFile(path.join(__dirname, "public/index.html"));
+    res.sendFile(path.join(__dirname, "/Develop/public/notes.html"));
 });
 
-// Listen
 
 app.listen(PORT, function () {
     console.log("App listening on PORT " + PORT);
 });
 
-// Functions
 
 function rewriteNotes() {
     fs.writeFile("/Develop/db/db.json", JSON.stringify(notes), function (err) {
