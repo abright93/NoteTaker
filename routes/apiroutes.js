@@ -1,72 +1,72 @@
 
-const fs = require("fs");
-const notesData = require("Develop/db/db.json");
+// const fs = require("fs");
+// const notesData = require("Develop/db/db.json");
 
-module.exports = function(app){
+// module.exports = function(app){
 
-function writeToDB(notes){
+// function writeToDB(notes){
         
-        notes = JSON.stringify(notes);
-        console.log (notes);
+//         notes = JSON.stringify(notes);
+//         console.log (notes);
         
-        fs.writeFileSync("Develop/db/db.json", notes, function(err){
-            if (err) {
-                return console.log(err);
-            }
-        });
-    }
+//         fs.writeFileSync("Develop/db/db.json", notes, function(err){
+//             if (err) {
+//                 return console.log(err);
+//             }
+//         });
+//     }
 
    
-    app.get("/api/notes", function(req, res){
-        res.json(notesData);
-    });
+//     app.get("/api/notes", function(req, res){
+//         res.json(notesData);
+//     });
 
     
-    app.post("/api/notes", function(req, res){
+//     app.post("/api/notes", function(req, res){
 
         
-        if (notesData.length == 0){
-            req.body.id = "0";
-        } else{
-            req.body.id = JSON.stringify(JSON.parse(notesData[notesData.length - 1].id) + 1);
-        }
+//         if (notesData.length == 0){
+//             req.body.id = "0";
+//         } else{
+//             req.body.id = JSON.stringify(JSON.parse(notesData[notesData.length - 1].id) + 1);
+//         }
         
-        console.log("req.body.id: " + req.body.id);
+//         console.log("req.body.id: " + req.body.id);
 
        
-        notesData.push(req.body);
+//         notesData.push(req.body);
 
        
-        writeToDB(notesData);
-        console.log(notesData);
+//         writeToDB(notesData);
+//         console.log(notesData);
 
         
-        res.json(req.body);
-    });
+//         res.json(req.body);
+//     });
 
     
-    app.delete("/api/notes/:id", function(req, res){
+//     app.delete("/api/notes/:id", function(req, res){
         
         
-        let id = req.params.id.toString();
-        console.log(id);
+//         let id = req.params.id.toString();
+//         console.log(id);
 
         
-        for (i=0; i < notesData.length; i++){
+//         for (i=0; i < notesData.length; i++){
            
-            if (notesData[i].id == id){
-                console.log("match!");
+//             if (notesData[i].id == id){
+//                 console.log("match!");
                 
-                res.send(notesData[i]);
+//                 res.send(notesData[i]);
 
                 
-                notesData.splice(i,1);
-                break;
-            }
-        }
+//                 notesData.splice(i,1);
+//                 break;
+//             }
+//         }
 
         
-        writeToDB(notesData);
+//         writeToDB(notesData);
 
-    });
-};
+//     });
+// };
