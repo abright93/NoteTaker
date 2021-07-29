@@ -27,5 +27,6 @@ using this Email: abrighttt@gmail.com.
 Link to deployed application:
 https://salty-sierra-81554.herokuapp.com/
 
-<img width="1440" alt="Screen Shot 2021-07-28 at 9 32 52 PM" src="https://user-images.githubusercontent.com/84680936/127419269-e00228c0-7e0f-495e-8023-f81b5944831d.png">
-<img width="1440" alt="Screen Shot 2021-07-28 at 9 33 51 PM" src="https://user-images.githubusercontent.com/84680936/127419273-708591db-5ef8-44db-945e-5f4a8d94bd10.png">
+<img width="1386" alt="Screen Shot 2021-07-28 at 9 51 27 PM" src="https://user-images.githubusercontent.com/84680936/127419361-14f212cb-944c-4097-95ca-f0b57eafefec.png">
+<img width="1385" alt="Screen Shot 2021-07-28 at 9 51 57 PM" src="https://user-images.githubusercontent.com/84680936/127419370-b9e52f81-8282-4cb7-87ad-b26e3aacdd8f.png">
+
