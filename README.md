@@ -21,7 +21,7 @@ This project is license under the ISC license.
 # Tests
 no tests needed
 # Questions
-If you have any questions about the repo, please contact me.
+If you have any questions about the repo, please contact me
 using this Email: abrighttt@gmail.com.
 
 Link to deployed application:
